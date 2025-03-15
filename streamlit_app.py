@@ -7,7 +7,7 @@ st.write(
 
 import streamlit as st
 import fitz  # PyMuPDF
-#import openai
+import openai
 import pandas as pd
 import json
 import os
