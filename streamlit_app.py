@@ -1,13 +1,13 @@
 import streamlit as st
 
-st.title("🎈 Movie Script Test")
+st.title("🎬 Movie Script Test")
 st.write(
     "Let's start building! For help and inspiration, head over to [docs.streamlit.io](https://docs.streamlit.io/)."
 )
 
 import streamlit as st
 import fitz  # PyMuPDF
-import openai
+#import openai
 import pandas as pd
 import json
 import os
@@ -71,7 +71,7 @@ if uploaded_file is not None:
     st.success("GPT 분석 완료!")
     
     # 결과를 데이터프레임으로 변환
-    df = pd.DataFrame.from_dict(st.session_state.analysis_results, orient='index', columns=["응답"])
+    results_df = pd.DataFrame.from_dict(st.session_state.analysis_results, orient='index', columns=["응답"])
     
     # CSV 저장 버튼 (다시 요청하지 않도록 session_state 사용)
     # CSV 저장 버튼 (Excel에서 한글 깨짐 방지 - UTF-16 적용)
