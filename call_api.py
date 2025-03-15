@@ -16,7 +16,7 @@ client = openai.OpenAI()
 
 # GPT API 호출
 response = client.chat.completions.create(
-    model="gpt-4",
+    model="gpt-4o-mini",
     messages=[
         {"role": "system", "content": "당신은 영화 시나리오 분석 전문가입니다."},
         {"role": "user", "content": "이 영화의 주요 장르를 분석해줘."}
