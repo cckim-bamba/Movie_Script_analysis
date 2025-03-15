@@ -1,1 +1,5 @@
 streamlit
+pymupdf
+openai
+pandas
+python-dotenv
