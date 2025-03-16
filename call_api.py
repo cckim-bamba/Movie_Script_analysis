@@ -18,8 +18,8 @@ client = openai.OpenAI()
 response = client.chat.completions.create(
     model="gpt-4o-mini",
     messages=[
-        {"role": "system", "content": "당신은 영화 시나리오 분석 전문가입니다."},
-        {"role": "user", "content": "이 영화의 주요 장르를 분석해줘."}
+        {"role": "system", "content": "당신은 영화 대본 분석 전문가입니다."},
+        {"role": "user", "content": "이 대본을 분석해서 질문에 답을 해, 질문에 [Narrative]라고 표시되어 있으면 서술형으로, 없다면 단답형으로 답변해줘"}
     ]
 )
 
