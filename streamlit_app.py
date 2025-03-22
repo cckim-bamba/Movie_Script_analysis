@@ -63,7 +63,7 @@ if uploaded_file is not None:
 
     if "analysis_results" not in st.session_state:
         results = {}
-        for key, question in QUESTIONS.values():
+        for key, question in QUESTIONS.items():
             with st.spinner(f"질문: {question} 처리 중..."):
                 answer = ask_gpt(question, script_text)
                 results[key] = answer #간단한 key로 저장 
