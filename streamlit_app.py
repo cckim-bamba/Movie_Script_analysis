@@ -50,36 +50,29 @@ def extract_text_from_pdf(pdf_file):
 st.title("영화 대본 분석 MVP")
 uploaded_file = st.file_uploader("PDF 대본을 업로드하세요", type=["pdf"])
 
-# 영화제목 추출
-filename = uploaded_file.name
-movie_title = os.path.splitext(filename)[0]
-csv_filename = f"{movie_title} 분석결과.csv"
-
 if uploaded_file is not None:
+    # 영화제목 추출 (여기서만 접근해야 안전해!)
+    filename = uploaded_file.name
+    movie_title = os.path.splitext(filename)[0]
+    csv_filename = f"{movie_title} 분석결과.csv"
+
     with st.spinner("PDF에서 텍스트 추출 중..."):
         script_text = extract_text_from_pdf(uploaded_file)
-    
+
     st.success("텍스트 추출 완료!")
-    
-    # GPT API 호출 및 응답 저장 (최초 한 번만 실행)
+
     if "analysis_results" not in st.session_state:
         results = {}
-        for key, question in QUESTIONS.items():
+        for question in QUESTIONS.values():
             with st.spinner(f"질문: {question} 처리 중..."):
                 answer = ask_gpt(question, script_text)
-                results[key] = answer 
+                results[question] = answer
         st.session_state.analysis_results = results
-    
+
     st.success("GPT 분석 완료!")
-    
-    # 결과를 데이터프레임으로 변환
-    results_df = pd.DataFrame.from_dict(results, orient='index', columns=["응답"])
-    
-    # CSV 저장 버튼 (다시 요청하지 않도록 session_state 사용)
-    # CSV 저장 버튼 (Excel에서 한글 깨짐 방지 - UTF-16 적용)
+
+    results_df = pd.DataFrame.from_dict(st.session_state.analysis_results, orient='index', columns=["응답"])
     csv = results_df.to_csv(index=True, encoding='utf-16', sep='\t')
     st.download_button("CSV 파일 다운로드", csv, csv_filename, "text/csv")
-    
-    # 결과 출력
     st.write("### 분석 결과")
     st.dataframe(results_df)
