@@ -54,7 +54,7 @@ if uploaded_file is not None:
     # 영화제목 추출 (여기서만 접근해야 안전해!)
     filename = uploaded_file.name
     movie_title = os.path.splitext(filename)[0]
-    csv_filename = f"{movie_title} 분석결과.csv"
+    csv_filename = f"[분석결과]{movie_title}.csv"
 
     with st.spinner("PDF에서 텍스트 추출 중..."):
         script_text = extract_text_from_pdf(uploaded_file)
