@@ -72,7 +72,9 @@ if uploaded_file is not None:
     st.success("GPT 분석 완료!")
 
     #results_df = pd.DataFrame.from_dict(st.session_state.analysis_results, orient='index', columns=["응답"])
-    results_df = pd.DataFrame.from_dict(results, orient='index', columns=["응답"])
+    #results_df = pd.DataFrame.from_dict(results, orient='index', columns=["응답"])
+    results_df = pd.DataFrame.from_dict(st.session_state.analysis_results, orient='index')
+    results_df.columns = ["응답"] 
     csv = results_df.to_csv(index=True, encoding='utf-16', sep='\t')
     st.download_button("CSV 파일 다운로드", csv, csv_filename, "text/csv")
     st.write("### 분석 결과")
