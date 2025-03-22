@@ -50,6 +50,11 @@ def extract_text_from_pdf(pdf_file):
 st.title("영화 대본 분석 MVP")
 uploaded_file = st.file_uploader("PDF 대본을 업로드하세요", type=["pdf"])
 
+# 영화제목 추출
+filename = uploaded_file.name
+movie_title = os.path.splitext(filename)[0]
+csv_filename = f"{movie_title} 분석결과.csv"
+
 if uploaded_file is not None:
     with st.spinner("PDF에서 텍스트 추출 중..."):
         script_text = extract_text_from_pdf(uploaded_file)
@@ -73,7 +78,7 @@ if uploaded_file is not None:
     # CSV 저장 버튼 (다시 요청하지 않도록 session_state 사용)
     # CSV 저장 버튼 (Excel에서 한글 깨짐 방지 - UTF-16 적용)
     csv = results_df.to_csv(index=True, encoding='utf-16', sep='\t')
-    st.download_button("CSV 파일 다운로드", csv, "script_analysis.csv", "text/csv")
+    st.download_button("CSV 파일 다운로드", csv, csv_filename, "text/csv")
     
     # 결과 출력
     st.write("### 분석 결과")
