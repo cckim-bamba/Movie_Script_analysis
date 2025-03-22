@@ -63,15 +63,16 @@ if uploaded_file is not None:
 
     if "analysis_results" not in st.session_state:
         results = {}
-        for question in QUESTIONS.values():
+        for key, question in QUESTIONS.values():
             with st.spinner(f"질문: {question} 처리 중..."):
                 answer = ask_gpt(question, script_text)
-                results[question] = answer
+                results[key] = answer #간단한 key로 저장 
         st.session_state.analysis_results = results
 
     st.success("GPT 분석 완료!")
 
-    results_df = pd.DataFrame.from_dict(st.session_state.analysis_results, orient='index', columns=["응답"])
+    #results_df = pd.DataFrame.from_dict(st.session_state.analysis_results, orient='index', columns=["응답"])
+    results_df = pd.DataFrame.from_dict(results, orient='index', columns=["응답"])
     csv = results_df.to_csv(index=True, encoding='utf-16', sep='\t')
     st.download_button("CSV 파일 다운로드", csv, csv_filename, "text/csv")
     st.write("### 분석 결과")
