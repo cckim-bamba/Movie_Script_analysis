@@ -14,18 +14,18 @@ import os
 from call_api import client 
 
 # 질문 리스트
-QUESTIONS = [
-    "이 대본의 줄거리 요약 500자 이내로",
-    "기승전결 핵심 갈등 요소 [기:갈등요소, 승:갈등요소, 전:갈등요소, 결:갈등요소] 형태로, 괄호 포함하고 리스트만 출력해.",
-    "이 대본의 등장인물 [주인공-%, 인물1-%, 인물2-%,, ] 등장 비중 순으로 리스트만 출력",
-    "기승전결에서 주인공의 감정변화 [기:감정, 승:감정, 전:감정, 결:감정] 형태로, 괄호 포함하고 리스트만 출력해.",
-    "이 대본의 주인공에 적합한 배우 3명 추천해 [배우1,배우2,배우3] 형태로, 괄호 포함하고 리스트만 출력해.",
-    "이 대본의 주요 장소와 장면 비중을 [장소:비중%,장소:비중%,장소:비중%,,] 괄호 포함하고 리스트만 출력해..",
-    "이 영화에 나오는 장소와 장소별 Scean 노출회수를 세어서 노출비중이 높은 순으로 [장소1:%,장소2:%,장소3] 형태로, 괄호 포함하고 리스트만 출력해.",
-    "이 영화의 장르 구성 요소를 %, 합이 100%가 되도록 분석해. (예: [액션 40%, 드라마 30%, 스릴러 30%] 괄호포함하고 리스트만 출력해.) ",
-    "유사한 주제를 가진 한국 영화 5개 [영화1-주제,영화2-주제, 영화3-주제,,] 형태로, 주제는 3개이내 단어로 리스트만 출력 ",
-    "이 영화의 흥행 가능성 긍정요소 3개, 부정적 요소 3개씩 리스트로 출력."
-]
+QUESTIONS = {
+    "summary": "이 대본의 줄거리 요약 500자 이내로",
+    "conflict_structure": "기승전결 핵심 갈등 요소 [기:갈등요소, 승:갈등요소, 전:갈등요소, 결:갈등요소] 형태로, 괄호 포함하고 리스트만 출력해.",
+    "character_ratio": "이 대본의 등장인물 [주인공-%, 인물1-%, 인물2-%,, ] 등장 비중 순으로 리스트만 출력",
+    "emotion_curve": "기승전결에서 주인공의 감정변화 [기:감정, 승:감정, 전:감정, 결:감정] 형태로, 괄호 포함하고 리스트만 출력해.",
+    "casting": "이 대본의 주인공에 적합한 배우 3명 추천해 [배우1,배우2,배우3] 형태로, 괄호 포함하고 리스트만 출력해.",
+    "location_scene_ratio": "이 대본의 주요 장소와 장면 비중을 [장소:비중%,장소:비중%,장소:비중%,,] 괄호 포함하고 리스트만 출력해..",
+    "location_scene_count": "이 영화에 나오는 장소와 장소별 Scean 노출회수를 세어서 노출비중이 높은 순으로 [장소1:%,장소2:%,장소3] 형태로, 괄호 포함하고 리스트만 출력해.",
+    "genre_mix": "이 영화의 장르 구성 요소를 %, 합이 100%가 되도록 분석해. (예: [액션 40%, 드라마 30%, 스릴러 30%] 괄호포함하고 리스트만 출력해.) ",
+    "similar_movies": "유사한 주제를 가진 한국 영화 5개 [영화1-주제,영화2-주제, 영화3-주제,,] 형태로, 주제는 3개이내 단어로 리스트만 출력 ",
+    "hit_pos_neg": "이 영화의 흥행 가능성 긍정요소 3개, 부정적 요소 3개씩 리스트로 출력."
+}
 
 
 
@@ -59,16 +59,16 @@ if uploaded_file is not None:
     # GPT API 호출 및 응답 저장 (최초 한 번만 실행)
     if "analysis_results" not in st.session_state:
         results = {}
-        for question in QUESTIONS:
+        for key, question in QUESTIONS.items():
             with st.spinner(f"질문: {question} 처리 중..."):
                 answer = ask_gpt(question, script_text)
-                results[question] = answer
+                results[key] = answer 
         st.session_state.analysis_results = results
     
     st.success("GPT 분석 완료!")
     
     # 결과를 데이터프레임으로 변환
-    results_df = pd.DataFrame.from_dict(st.session_state.analysis_results, orient='index', columns=["응답"])
+    results_df = pd.DataFrame.from_dict(results, orient='index', columns=["응답"])
     
     # CSV 저장 버튼 (다시 요청하지 않도록 session_state 사용)
     # CSV 저장 버튼 (Excel에서 한글 깨짐 방지 - UTF-16 적용)
