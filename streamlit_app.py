@@ -1,6 +1,6 @@
 import streamlit as st
 
-st.title("🎬 Movie Script Test4")
+st.title("🎬 Movie Script Test5")
 st.write(
     "Let's start building! For help and inspiration, head over to [docs.streamlit.io](https://docs.streamlit.io/)."
 )
@@ -52,7 +52,7 @@ QUESTIONS = {
         "output_format": "리스트"
     },
     "hit_pos_neg": {
-        "prompt": "이 영화가 손익분기점을 넘길수 있는 긍정적인 요소 3개와, 흥행하지 못할 이유 3개를 아래와 같이 출력해 주세요.\n[긍정: 요소1, 요소2, 요소3 / 부정: 요소1, 요소2, 요소3] 형식으로 괄호 포함 리스트로만 출력해 주세요.",
+        "prompt": "이 영화가 손익분기점을 넘길수 있는 긍정적인 요소 3개와, 흥행하지 못할 요소 3개를 [긍정: 요소1, 요소2, 요소3 / 부정: 요소1, 요소2, 요소3] 형식으로 괄호 포함 리스트로만 출력해 주세요.",
         "output_format": "리스트"
     }
 }
