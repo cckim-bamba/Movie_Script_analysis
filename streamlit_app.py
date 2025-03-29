@@ -91,7 +91,7 @@ QUESTIONS = {
 # GPT API 호출 함수
 def ask_gpt(question, script_text):
     response = client.chat.completions.create(
-        model="gpt-4o",
+        model="gpt-4o-mini",
         messages=[
             {"role": "system", "content": "당신은 텍스트(단어) 기반 영화 시나리오 분석 전문가입니다. 외부 검색 참조하지 말고 업로드한 문서를 단어와 문장의 컨택스트 기반으로 분석합니다."},
             {"role": "user", "content": f"대본 내용: {script_text}...\n\n{question}"}
