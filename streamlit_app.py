@@ -5,14 +5,16 @@ import os
 from call_api import client
 from datetime import datetime
 
-import streamlit as st
 import json
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
 # 1. Streamlit secrets에서 JSON 저장
-with open("google-credentials.json", "w") as f:
-    json.dump(json.loads(st.secrets["MOVIEANALYSIS_GSHEET"]), f)
+if "MOVIEANALYSIS_GSHEET" not in st.secrets:
+    st.error("MOVIEANALYSIS_GSHEET secret not found in Streamlit secrets.")
+else:
+    with open("google-credentials.json", "w") as f:
+        json.dump(json.loads(st.secrets["MOVIEANALYSIS_GSHEET"]), f)
 
 # 2. 인증 및 시트 연결
 scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
