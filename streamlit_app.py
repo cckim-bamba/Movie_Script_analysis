@@ -9,6 +9,13 @@ import json
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
+
+st.title("🎬 Movie Script Test5")
+st.write(
+    "Let's start building! For help and inspiration, head over to [docs.streamlit.io](https://docs.streamlit.io/)."
+)
+
+
 # 1. Streamlit secrets에서 JSON 저장
 if "MOVIEANALYSIS_GSHEET" not in st.secrets:
     st.error("MOVIEANALYSIS_GSHEET secret not found in Streamlit secrets.")
