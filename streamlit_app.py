@@ -74,6 +74,17 @@ QUESTIONS = {
         "prompt": "이 영화가 손익분기점을 넘길 수 없는 부정적인 요소 3개를 [요소1, 요소2, 요소3] 형식으로 리스트로만 출력해 주세요.",
         "output_format": "리스트"
     }
+    "hit_ganre": {
+        "prompt": "이 영화가 흥행할수 있는지 장르 결합 측면에서 평가해줘.",
+        "output_format": "문장"
+    },
+    "hit_charactor": {
+        "prompt": "이 영화가 흥행할수 있는지 주인공의 감정선과 매력도 측면에서 평가해줘.",
+        "output_format": "문장"
+    "hit_story": {
+        "prompt": "이 영화가 흥행할수 있는지 영화의 주제 측면에서 평가해줘.",
+        "output_format": "문장"
+    }
 }
 
 # GPT API 호출 함수
