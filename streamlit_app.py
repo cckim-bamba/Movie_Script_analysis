@@ -13,7 +13,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
 creds = ServiceAccountCredentials.from_json_keyfile_name("google-credentials.json", scope)
 gs_client = gspread.authorize(creds)
-sheet = gs_client.open("Movie_Analysis").worksheet("Sheet1")  # 구글 시트 이름/시트명에 맞게 변경
+sheet = gs_client.open("Movie_Analysis").worksheet("Data")  # 구글 시트 이름/시트명에 맞게 변경
 
 # 질문 리스트
 QUESTIONS = {
