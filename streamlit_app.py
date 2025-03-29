@@ -9,7 +9,7 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
 # 🔹 타이틀
-st.title("🎬 Movie Script Analyzer V.0329")
+st.title("🎬 Movie Script Analyzer V.032900")
 st.write("대본을 업로드하면 GPT가 분석하고, 결과를 구글 시트에 저장합니다.")
 
 # 🔹 Google Sheets 인증
@@ -64,7 +64,7 @@ QUESTIONS = {
         "output_format": "리스트"
     },
     "hit_neg": {
-        "prompt": "흥행에 불리한 부정 요소 3가지를 [요소1, 요소2, 요소3] 형태로 리스트만 출력하세요.",
+        "prompt": "흥행에 불리한 요소 3가지를 [요소1, 요소2, 요소3] 형태로 리스트만 출력하세요.",
         "output_format": "리스트"
     },
     "hit_ganre": {
@@ -86,7 +86,7 @@ def ask_gpt(question, script_text):
     response = client.chat.completions.create(
         model="gpt-4o-mini",
         messages=[
-            {"role": "system", "content": "당신은 영화 시나리오 분석 전문가입니다."},
+            {"role": "system", "content": "당신은 영화 시나리오 분석 전문가입니다. 주어진 대본의 텍스트와 문맥에 기반해서 분석합니다."},
             {"role": "user", "content": f"대본 내용: {script_text}...\n\n{question}"}
         ]
     )
