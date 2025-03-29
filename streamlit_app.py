@@ -81,7 +81,7 @@ def ask_gpt(question, script_text):
     response = client.chat.completions.create(
         model="gpt-4o-mini",
         messages=[
-            {"role": "system", "content": "당신은 영화 시나리오 분석 전문가입니다."},
+            {"role": "system", "content": "당신은 영화 시나리오 분석 전문가입니다.외부 데이터 참조하지 않고 대본 자료만 분석합니다."},
             {"role": "user", "content": f"대본 내용: {script_text[:2000]}...\n\n{question}"}
         ]
     )
