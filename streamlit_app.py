@@ -10,7 +10,7 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
 
-st.title("🎬 Movie Script Test5")
+st.title("🎬 Movie Script Test V.03291840")
 st.write(
     "Let's start building! For help and inspiration, head over to [docs.streamlit.io](https://docs.streamlit.io/)."
 )
@@ -35,7 +35,7 @@ sheet.append_row(["2025-03-29", "영화제목", "항목", "분석결과"])
 # 질문 리스트
 QUESTIONS = {
     "summary": {
-        "prompt": "이 대본의 줄거리를 1000자 이내로 기-승-전-결 구조로 주인공의 감정 흐름과 이야기 전개가 드러나도록 간결하게 서술해 주세요.",
+        "prompt": "이 대본의 줄거리를 기승전결이 드러나게 1000자 이내로 요약해주세요,
         "output_format": "문장"
     },
     "conflict_structure": {
@@ -43,11 +43,11 @@ QUESTIONS = {
         "output_format": "리스트"
     },
     "character_ratio": {
-        "prompt": "이 대본의 등장인물 비중을 [주인공이름-30%, 이름-25%, 이름-15%, ...] 형태로, 비중이 높은 순으로 리스트만 출력하세요. 설명 없이 리스트로만 출력해 주세요.",
+        "prompt": "이 대본의 등장인물 비중을 [주인공이름-%, 이름-%, 이름-%, ...] 형태로, 비중이 높은 순으로 설명 없이 리스트로만 출력해 주세요.",
         "output_format": "리스트"
     },
     "emotion_curve": {
-        "prompt": "기승전결에서 주인공의 감정 변화를 [기:감정, 승:감정, 전:감정, 결:감정] 형태로 리스트만 출력해 주세요. 설명 없이 리스트로만 출력해 주세요.",
+        "prompt": "기승전결에서 주인공의 감정 변화를 [기:감정, 승:감정, 전:감정, 결:감정] 형태로 설명 없이 리스트로만 출력해 주세요.",
         "output_format": "리스트"
     },
     "casting": {
@@ -59,7 +59,7 @@ QUESTIONS = {
         "output_format": "리스트"
     },
     "genre_mix": {
-        "prompt": "이 영화의 장르 구성 비율을 분석하여 [장르1 40%, 장르2 30%, 장르3 30%] 형식으로, 합이 100%가 되도록 괄호 포함 리스트만 출력해 주세요. 참조하는 영화장르는 드라마,첩보,옴니버스,뮤직,동성애, 드무비,아동,하이틴,전기,청춘,재난,신파,활극,반공,군사,계몽,사회,스포츠,종교,무협,미스터리,SF,코메디,느와르,액션,범죄,어드벤처,가족,에로,멜로,로맨스,공포,뮤지컬,시대극,실험,스릴러,서부,전쟁,갱스터,판타지,해양액션 등입니다. 설명 없이 결과만 출력해 주세요.",
+        "prompt": "이 영화의 장르 구성 비율을 분석하여 [장르1 40%, 장르2 30%, 장르3 30%] 형식으로, 합이 100%가 되도록 괄호 포함 리스트만 출력해 주세요. 영화장르는 드라마,첩보,옴니버스,뮤직,동성애, 드무비,아동,하이틴,전기,청춘,재난,신파,활극,반공,군사,계몽,사회,스포츠,종교,무협,미스터리,SF,코메디,느와르,액션,범죄,어드벤처,가족,에로,멜로,로맨스,공포,뮤지컬,시대극,실험,스릴러,서부,전쟁,갱스터,판타지,해양액션 중에서 고릅니다. 설명 없이 결과만 출력해 주세요.",
         "output_format": "리스트"
     },
     "similar_movies": {
@@ -75,15 +75,15 @@ QUESTIONS = {
         "output_format": "리스트"
     },
     "hit_ganre": {
-        "prompt": "이 영화가 흥행할수 있는지 장르 결합 측면에서 평가해서 한문장으로 간결하게 설명해줘.",
+        "prompt": "이 영화의 흥행 가능성을 장르 결합 측면에서 평가해서 한문장으로 간결하게 설명해줘.",
         "output_format": "문장"
     },
     "hit_charactor": {
-        "prompt": "이 영화가 흥행할수 있는지 주인공의 감정선과 매력도 측면에서 한문장으로 간결하게 평가해줘.",
+        "prompt": "이 영화의 흥행 가능성을 주인공의 감정선과 매력도 측면에서 한문장으로 간결하게 평가해줘.",
         "output_format": "문장"
     },
     "hit_story": {
-        "prompt": "이 영화가 흥행할수 있는지 영화의 주제 측면에서 한문장으로 간결하게 평가해줘.",
+        "prompt": "이 영화의 흥행 가능성을 영화의 주제 측면에서 한문장으로 간결하게 평가해줘.",
         "output_format": "문장"
     }
 }
@@ -94,7 +94,7 @@ def ask_gpt(question, script_text):
         model="gpt-4o",
         messages=[
             {"role": "system", "content": "당신은 영화 시나리오 분석 전문가입니다.외부 데이터 참조하지 않고 대본 자료만 분석합니다."},
-            {"role": "user", "content": f"대본 내용: {script_text[:2000]}...\n\n{question}"}
+            {"role": "user", "content": f"대본 내용: {script_text}...\n\n{question}"}
         ]
     )
     return response.choices[0].message.content
