@@ -5,15 +5,23 @@ import os
 from call_api import client
 from datetime import datetime
 
-# 🔹 Google Sheets 연동
+import streamlit as st
+import json
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
-# 구글 시트 인증
+# 1. Streamlit secrets에서 JSON 저장
+with open("google-credentials.json", "w") as f:
+    json.dump(json.loads(st.secrets["GOOGLE_CREDENTIALS"]), f)
+
+# 2. 인증 및 시트 연결
 scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
 creds = ServiceAccountCredentials.from_json_keyfile_name("google-credentials.json", scope)
 gs_client = gspread.authorize(creds)
-sheet = gs_client.open("Movie_Analysis").worksheet("Data")  # 구글 시트 이름/시트명에 맞게 변경
+sheet = gs_client.open("Movie_Analysis").worksheet("Data")
+
+# 3. 예시: 데이터 한 줄 쓰기
+sheet.append_row(["2025-03-29", "영화제목", "항목", "분석결과"])
 
 # 질문 리스트
 QUESTIONS = {
