@@ -111,7 +111,7 @@ if uploaded_file is not None:
     results_df = pd.DataFrame.from_dict(st.session_state.analysis_results, orient='index')
     results_df.columns = ["응답"] 
     #csv = results_df.to_csv(index=True, encoding='utf-16', sep='\t')
-    csv = results_df.to_csv(index=True, encoding='utf-8-sig')
+    csv = results_df.to_csv(index=True, encoding='cp949')
     st.download_button("CSV 파일 다운로드", csv, csv_filename, "text/csv")
     st.write("### 분석 결과")
     st.dataframe(results_df)
