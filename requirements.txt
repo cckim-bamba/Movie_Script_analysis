@@ -3,3 +3,7 @@ pymupdf
 openai
 pandas
 python-dotenv
+streamlit
+gspread
+oauth2client
+PyMuPDF
