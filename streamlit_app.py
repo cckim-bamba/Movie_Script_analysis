@@ -15,16 +15,46 @@ from call_api import client
 
 # 질문 리스트
 QUESTIONS = {
-    "summary": "이 대본의 줄거리 요약 500자 이내로",
-    "conflict_structure": "기승전결 핵심 갈등 요소 [기:갈등요소, 승:갈등요소, 전:갈등요소, 결:갈등요소] 형태로, 괄호 포함하고 리스트만 출력해.",
-    "character_ratio": "이 대본의 등장인물 [주인공-%, 인물1-%, 인물2-%,, ] 등장 비중 순으로 리스트만 출력",
-    "emotion_curve": "기승전결에서 주인공의 감정변화 [기:감정, 승:감정, 전:감정, 결:감정] 형태로, 괄호 포함하고 리스트만 출력해.",
-    "casting": "이 대본의 주인공에 적합한 배우 3명 추천해 [배우1,배우2,배우3] 형태로, 괄호 포함하고 리스트만 출력해.",
-    "location_scene_ratio": "이 대본의 주요 장소와 장면 비중을 [장소:비중%,장소:비중%,장소:비중%,,] 괄호 포함하고 리스트만 출력해..",
-    "location_scene_count": "이 영화에 나오는 장소와 장소별 Scean 노출회수를 세어서 노출비중이 높은 순으로 [장소1:%,장소2:%,장소3] 형태로, 괄호 포함하고 리스트만 출력해.",
-    "genre_mix": "이 영화의 장르 구성 요소를 %, 합이 100%가 되도록 분석해. (예: [액션 40%, 드라마 30%, 스릴러 30%] 괄호포함하고 리스트만 출력해.) ",
-    "similar_movies": "유사한 주제를 가진 한국 영화 5개 [영화1-주제,영화2-주제, 영화3-주제,,] 형태로, 주제는 3개이내 단어로 리스트만 출력 ",
-    "hit_pos_neg": "이 영화의 흥행 가능성 긍정요소 3개, 부정적 요소 3개씩 리스트로 출력."
+    "summary": {
+        "prompt": "이 대본의 줄거리를 500자 이내로 요약해 주세요. 다른 설명 없이 요약 문장만 출력해 주세요.",
+        "output_format": "문장"
+    },
+    "conflict_structure": {
+        "prompt": "이 대본의 기승전결 구조에서 핵심 갈등 요소를 [기:갈등요소, 승:갈등요소, 전:갈등요소, 결:갈등요소] 형태로 리스트만 출력하세요. 설명 없이 괄호 포함 리스트로만 출력해 주세요.",
+        "output_format": "리스트"
+    },
+    "character_ratio": {
+        "prompt": "이 대본의 등장인물 비중을 [주인공-30%, 인물1-25%, 인물2-15%, ...] 형태로, 비중이 높은 순으로 리스트만 출력하세요. 설명 없이 괄호 포함 리스트로만 출력해 주세요.",
+        "output_format": "리스트"
+    },
+    "emotion_curve": {
+        "prompt": "기승전결에서 주인공의 감정 변화를 [기:감정, 승:감정, 전:감정, 결:감정] 형태로 리스트만 출력해 주세요. 설명 없이 괄호 포함 리스트로만 출력해 주세요.",
+        "output_format": "리스트"
+    },
+    "casting": {
+        "prompt": "이 대본의 주인공에 적합한 한국 배우 3명을 [배우1, 배우2, 배우3] 형태로 추천해 주세요. 설명 없이 괄호 포함 리스트로만 출력해 주세요.",
+        "output_format": "리스트"
+    },
+    "location_scene_ratio": {
+        "prompt": "이 대본의 주요 장소와 장면 비중을 [장소1:비중%, 장소2:비중%, 장소3:비중%] 형태로 리스트만 출력해 주세요. 설명 없이 괄호 포함 리스트로만 출력해 주세요.",
+        "output_format": "리스트"
+    },
+    "location_scene_count": {
+        "prompt": "이 영화에 등장하는 장소별 씬 노출 횟수를 바탕으로, 노출 비중이 높은 순서대로 [장소1:비중%, 장소2:비중%, 장소3:비중%] 형태로 리스트만 출력해 주세요. 설명 없이 괄호 포함 리스트로만 출력해 주세요.",
+        "output_format": "리스트"
+    },
+    "genre_mix": {
+        "prompt": "이 영화의 장르 구성 비율을 분석하여 [장르1 40%, 장르2 30%, 장르3 30%] 형식으로, 합이 100%가 되도록 괄호 포함 리스트만 출력해 주세요. 설명 없이 결과만 출력해 주세요.",
+        "output_format": "리스트"
+    },
+    "similar_movies": {
+        "prompt": "유사한 주제를 가진 한국 영화 5편을 [(영화1,감독,주제), (영화2,감독,주제), (영화3,감독,주제), (영화4,감독,주제), (영화5,감독,주제] 형태로 리스트만 출력해 주세요. 각 주제는 한문장으로. 설명 없이 괄호 포함 리스트로만 출력해 주세요.",
+        "output_format": "리스트"
+    },
+    "hit_pos_neg": {
+        "prompt": "이 영화의 흥행 가능성에 대해 긍정적인 요소 3개와 부정적인 요소 3개를 아래와 같이 출력해 주세요.\n[긍정: 요소1, 요소2, 요소3 / 부정: 요소1, 요소2, 요소3] 형식으로 괄호 포함 리스트로만 출력해 주세요.",
+        "output_format": "리스트"
+    }
 }
 
 
@@ -39,7 +69,8 @@ def ask_gpt(question, script_text):
         ]
     )
     return response.choices[0].message.content
-
+    
+    
 # PDF에서 텍스트 추출 함수
 def extract_text_from_pdf(pdf_file):
     doc = fitz.open(stream=pdf_file.read(), filetype="pdf")
@@ -63,10 +94,14 @@ if uploaded_file is not None:
 
     if "analysis_results" not in st.session_state:
         results = {}
-        for key, question in QUESTIONS.items():
-            with st.spinner(f"질문: {question} 처리 중..."):
-                answer = ask_gpt(question, script_text)
-                results[key] = answer #간단한 key로 저장 
+        for key, info in QUESTIONS.items():
+            question = info["prompt"]
+            output_format = info["output_format"]
+            answer = ask_gpt(question, script_text)
+            
+            if output_format == "리스트":
+                answer = answer.strip("[]")  # 필요시 추가 처리
+            results[key] = answer
         st.session_state.analysis_results = results
 
     st.success("GPT 분석 완료!")
