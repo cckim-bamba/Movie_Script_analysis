@@ -35,7 +35,7 @@ sheet.append_row(["2025-03-29", "영화제목", "항목", "분석결과"])
 # 질문 리스트
 QUESTIONS = {
     "summary": {
-        "prompt": "이 대본의 줄거리를 기승전결이 드러나게 1000자 이내로 요약해주세요,
+        "prompt": "이 대본의 줄거리를 기승전결이 드러나게 1000자 이내로 요약해주세요",
         "output_format": "문장"
     },
     "conflict_structure": {
