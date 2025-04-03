@@ -6,4 +6,4 @@ python-dotenv
 streamlit
 gspread
 oauth2client
-PyMuPDF
+PyPDF2
