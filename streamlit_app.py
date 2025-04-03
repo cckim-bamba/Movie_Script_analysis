@@ -10,7 +10,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 import re
 
 #  타이틀
-st.title(" Movie Script Analyzer V.0403")
+st.title(" Movie Script Analyzer V.032900")
 st.write("대본을 업로드하면 GPT가 분석하고, 결과를 구글 시트에 저장합니다.")
 
 #  Google Sheets 인증
@@ -24,7 +24,7 @@ else:
 scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
 creds = ServiceAccountCredentials.from_json_keyfile_name("google-credentials.json", scope)
 gs_client = gspread.authorize(creds)
-sheet = gs_client.open("Movie_Analysis").worksheet("Plot")
+sheet = gs_client.open("Movie_Analysis").worksheet("Data")
 
 #  분석 함수 정의
 def analyze_script_to_plots(text, movie_title):
@@ -99,7 +99,7 @@ if uploaded_file is not None:
     if not st.session_state.get("already_saved"):
         existing_rows = sheet.get_all_values()
         already_logged = any(
-            row[0] == today and row[1] == movie_title for row in existing_rows
+            len(row) >= 2 and row[0] == today and row[1] == movie_title for row in existing_rows
         )
         if not already_logged:
             for index, row in st.session_state.analysis_results.iterrows():
