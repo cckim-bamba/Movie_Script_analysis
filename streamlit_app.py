@@ -1,13 +1,13 @@
 import streamlit as st
-import openai
 import gspread
 import json
 import pandas as pd
+from openai import OpenAI
 from PyPDF2 import PdfReader
 from oauth2client.service_account import ServiceAccountCredentials
 
 # ✅ GPT API 키 (Streamlit secrets에서 불러오기)
-openai.api_key = st.secrets["OPENAI_API_KEY"]
+client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
 # ✅ Google Sheets 인증
 if "MOVIEANALYSIS_GSHEET" not in st.secrets:
@@ -35,7 +35,7 @@ JSON 형식으로, 다음 키로 구성해줘: 플롯번호, 요약문.
 시나리오:
 {full_text}
 """
-    response = openai.ChatCompletion.create(
+    response = client.chat.completions.create(
         model="gpt-4",
         messages=[{"role": "user", "content": prompt}],
         temperature=0.3
@@ -45,7 +45,7 @@ JSON 형식으로, 다음 키로 구성해줘: 플롯번호, 요약문.
 # ✅ GPT로 각 플롯 분석
 def analyze_single_plot(scene):
     def ask(subprompt):
-        res = openai.ChatCompletion.create(
+        res = client.chat.completions.create(
             model="gpt-4",
             messages=[{"role": "user", "content": subprompt}],
             temperature=0
