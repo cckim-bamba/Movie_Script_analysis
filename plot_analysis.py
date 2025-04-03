@@ -1,20 +1,19 @@
-# Ensure required packages are installed: PyPDF2, pandas
+import streamlit as st
 import os
-import json
 import re
 import pandas as pd
 from PyPDF2 import PdfReader
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
-# ✅ Google Sheets 인증 함수
-def authorize_gsheet(credential_file="google-credentials.json"):
+# Google Sheets 인증 함수
+def authorize_gsheet(credential_file):
     scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
     creds = ServiceAccountCredentials.from_json_keyfile_name(credential_file, scope)
     client = gspread.authorize(creds)
     return client
 
-# ✅ PDF 텍스트 추출
+# PDF 텍스트 추출
 def extract_text_from_pdf(pdf_path):
     reader = PdfReader(pdf_path)
     text = ""
@@ -22,7 +21,7 @@ def extract_text_from_pdf(pdf_path):
         text += page.extract_text()
     return text
 
-# ✅ 간단한 플롯 분석
+# 간단한 플롯 분석
 def analyze_script_to_plots(text, movie_title):
     scenes = re.split(r'\n{2,}', text)[:8]
     results = []
@@ -50,37 +49,37 @@ def analyze_script_to_plots(text, movie_title):
     ])
     return df
 
-# ✅ 결과를 Google Sheets에 저장
+# 결과를 Google Sheets에 저장
 def upload_to_gsheet(df, sheet_url, sheet_name, credential_file):
     client = authorize_gsheet(credential_file)
     sheet = client.open_by_url(sheet_url).worksheet(sheet_name)
     for _, row in df.iterrows():
         sheet.append_row(row.values.tolist(), value_input_option="USER_ENTERED")
 
-# ✅ 메인 실행 함수
+# Streamlit 앱
 def main():
-    # PDF 경로 및 인증 키 경로 입력
-    pdf_path = input("PDF 파일 경로를 입력하세요: ").strip()
-    credential_file = input("Google 인증 JSON 경로를 입력하세요: ").strip()
+    st.title("Movie Script Analysis")
 
-    # Google Sheet 정보
+    pdf_path = st.text_input("PDF 파일 경로를 입력하세요:")
+    credential_file = st.text_input("Google 인증 JSON 경로를 입력하세요:")
+
     sheet_url = "https://docs.google.com/spreadsheets/d/1PdE87G6sENx4sQk1swCNPnmrZrEHpHBBRQwNKWLFdEQ/edit#gid=1348359652"
     sheet_name = "plot"
 
-    # 영화제목은 파일명에서 추출
-    movie_title = os.path.basename(pdf_path).replace(".pdf", "")
+    if pdf_path and credential_file:
+        movie_title = os.path.basename(pdf_path).replace(".pdf", "")
 
-    # 분석 및 업로드
-    print("⏳ 텍스트 추출 중...")
-    text = extract_text_from_pdf(pdf_path)
+        st.write("⏳ 텍스트 추출 중...")
+        text = extract_text_from_pdf(pdf_path)
 
-    print("🧠 분석 중...")
-    df = analyze_script_to_plots(text, movie_title)
-    print(df)
+        st.write("🧠 분석 중...")
+        df = analyze_script_to_plots(text, movie_title)
+        st.dataframe(df)
 
-    print("📤 Google Sheets에 저장 중...")
-    upload_to_gsheet(df, sheet_url, sheet_name, credential_file)
-    print("✅ 저장 완료!")
+        if st.button("📤 Google Sheets에 저장"):
+            st.write("📤 Google Sheets에 저장 중...")
+            upload_to_gsheet(df, sheet_url, sheet_name, credential_file)
+            st.write("✅ 저장 완료!")
 
 if __name__ == "__main__":
     main()
