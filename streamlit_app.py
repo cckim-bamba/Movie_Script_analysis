@@ -20,7 +20,7 @@ with open("google-credentials.json", "w") as f:
 scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
 creds = ServiceAccountCredentials.from_json_keyfile_name("google-credentials.json", scope)
 gs_client = gspread.authorize(creds)
-sheet = gs_client.open_by_url("https://docs.google.com/spreadsheets/d/1PdE87G6sENx4sQk1swCNPnmrZrEHpHBBRQwNKWLFdEQ/edit#gid=1348359652").worksheet("plot")
+sheet = gs_client.open_by_url("https://docs.google.com/spreadsheets/d/1PdE87G6sENx4sQk1swCNPnmrZrEHpHBBRQwNKWLFdEQ").worksheet("Plot")
 
 # ✅ 텍스트 추출 함수
 def extract_text_from_pdf(uploaded_file):
