@@ -29,7 +29,7 @@ def extract_text_from_pdf(uploaded_file):
 
 # ✅ GPT로 플롯 자동 분할
 def split_script_with_gpt(full_text):
-    prompt = f"""다음은 영화 시나리오 전체입니다. 이 시나리오를 6~8개의 주요 플롯(Plot)으로 나누고, 각 플롯의 내용을 300자 이내로 요약해줘. 
+    prompt = f"""다음은 영화 시나리오 전체입니다. 이 시나리오를 n개의 주요 플롯(Plot)으로 나누고, 각 플롯의 내용을 300자 이내로 요약해줘. 
 JSON 형식으로, 다음 키로 구성해줘: 플롯번호, 요약문.
 
 시나리오:
