@@ -35,11 +35,38 @@ def analyze_script_to_plots(text, movie_title):
         progress = int((plot_num - 1) / max(len(scenes) - 1, 1) * 100)
         
         # GPT를 사용하여 감정, 긴박도, 장르 분석
-        main_emotion = ask_gpt(f"플롯 {plot_num}의 주인공 감정을 0~100 사이의 숫자로만 답변해주세요. 플롯 내용: {scene}", text)
-        sub_emotion = ask_gpt(f"플롯 {plot_num}의 인물2 감정을 0~100 사이의 숫자로만 답변해주세요. 플롯 내용: {scene}", text)
-        tension = ask_gpt(f"플롯 {plot_num}의 긴박도를 0~100 사이의 숫자로만 답변해주세요. 플롯 내용: {scene}", text)
-        genre = ask_gpt(f"플롯 {plot_num}의 핵심 장르를 [드라마, 로맨스, 코미디, 범죄, 스릴러, 공포, SF/판타지, 액션, 어드벤처, 전쟁, 재난, 뮤지컬, 아동/청소년, 종교, 시대극] 중에서 한 단어로 답변해주세요. 플롯 내용: {scene}", text)
+        main_emotion = ask_gpt(
+            f"""다음 플롯의 주인공 감정을 숫자 하나로 표현해 주세요. 
+            감정의 범위는 0 (매우 불행) ~ 100 (매우 행복)입니다. 
+            숫자만 출력하세요. 
+            
+            플롯 내용: {scene}"""
+        )
         
+        sub_emotion = ask_gpt(
+            f"""다음 플롯에서 인물2의 감정을 숫자 하나로 표현해 주세요. 
+            감정의 범위는 0 (매우 불행) ~ 100 (매우 행복)입니다. 
+            숫자만 출력하세요.
+        
+            플롯 내용: {scene}"""
+        )
+        
+        tension = ask_gpt(
+            f"""다음 플롯의 긴박도(긴장도)를 숫자 하나로 표현해 주세요. 
+            긴박도의 범위는 0 (매우 평온) ~ 100 (매우 긴박)입니다. 
+            숫자만 출력하세요.
+        
+            플롯 내용: {scene}"""
+        )
+        
+        genre = ask_gpt(
+            f"""다음 플롯의 주요 장르를 아래 리스트 중에서 한 단어로 선택해 주세요.
+            반드시 아래 리스트 중 하나만, 그리고 단어만 출력하세요.
+        
+            [드라마, 로맨스, 코미디, 범죄, 스릴러, 공포, SF/판타지, 액션, 어드벤처, 전쟁, 재난, 뮤지컬, 아동/청소년, 종교, 시대극]
+        
+            플롯 내용: {scene}"""
+        )
         results.append([
             movie_title,
             plot_num,
@@ -51,6 +78,7 @@ def analyze_script_to_plots(text, movie_title):
             tension,
             genre
         ])
+        
     df = pd.DataFrame(results, columns=[
         "Movie Title", "Plot_Num", "Plot", "Scene", "Progress",
         "Main_emotion", "Sub_emotion", "Tension", "Plot_genre"
