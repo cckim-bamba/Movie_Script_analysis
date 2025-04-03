@@ -28,17 +28,17 @@ sheet = gs_client.open("Movie_Analysis").worksheet("Data")
 
 #  분석 함수 정의
 def analyze_script_to_plots(text, movie_title):
-    scenes = re.split(r'\n{2,}', text)[:8]  # 앞부분 8개 플롯만 분석
+    scenes = re.split(r'\n{2,}', text) #플롯 분석
     results = []
     for i, scene in enumerate(scenes):
         plot_num = i + 1
         progress = int((plot_num - 1) / max(len(scenes) - 1, 1) * 100)
         
         # GPT를 사용하여 감정, 긴박도, 장르 분석
-        main_emotion = ask_gpt(f"플롯 {plot_num}의 주인공 감정을 0~100 사이의 숫자로 답변해주세요. 플롯 내용: {scene}", text)
-        sub_emotion = ask_gpt(f"플롯 {plot_num}의 인물2 감정을 0~100 사이의 숫자로 답변해주세요. 플롯 내용: {scene}", text)
-        tension = ask_gpt(f"플롯 {plot_num}의 긴박도를 0~100 사이의 숫자로 답변해주세요. 플롯 내용: {scene}", text)
-        genre = ask_gpt(f"플롯 {plot_num}의 핵심 장르를 [드라마, 로맨스, 코미디, 범죄, 스릴러, 공포, SF/판타지, 액션, 어드벤처, 전쟁, 재난, 뮤지컬, 아동/청소년, 종교, 시대극] 중에서 하나만 선택하여 답변해주세요. 플롯 내용: {scene}", text)
+        main_emotion = ask_gpt(f"플롯 {plot_num}의 주인공 감정을 0~100 사이의 숫자로만 답변해주세요. 플롯 내용: {scene}", text)
+        sub_emotion = ask_gpt(f"플롯 {plot_num}의 인물2 감정을 0~100 사이의 숫자로만 답변해주세요. 플롯 내용: {scene}", text)
+        tension = ask_gpt(f"플롯 {plot_num}의 긴박도를 0~100 사이의 숫자로만 답변해주세요. 플롯 내용: {scene}", text)
+        genre = ask_gpt(f"플롯 {plot_num}의 핵심 장르를 [드라마, 로맨스, 코미디, 범죄, 스릴러, 공포, SF/판타지, 액션, 어드벤처, 전쟁, 재난, 뮤지컬, 아동/청소년, 종교, 시대극] 중에서 한 단어로 답변해주세요. 플롯 내용: {scene}", text)
         
         results.append([
             movie_title,
@@ -52,8 +52,8 @@ def analyze_script_to_plots(text, movie_title):
             genre
         ])
     df = pd.DataFrame(results, columns=[
-        "영화제목", "플롯번호", "플롯 구간", "주요 사건", "진행도(%)",
-        "주인공 감정", "인물2 감정", "긴박도", "핵심 장르"
+        "Movie Title", "Plot_Num", "Plot", "Scene", "Progress",
+        "Main_emotion", "Sub_emotion", "Tension", "Plot_genre"
     ])
     return df
 
